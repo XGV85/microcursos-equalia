@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lección 1 · Sesgos inconscientes en la contratación — Equalia</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+  :root{
+    --ink:#16232A; --ink-dk:#0A1216; --ink-lt:#223640;
+    --turq:#1FB6C4; --turq-lt:#5DD3DE; --turq-dk:#158A94;
+    --cream:#F5F3EE; --cream-dk:#EAE6DC; --white:#ffffff;
+    --gray:#6E787C; --red:#C8463C; --green:#198C6E;
+    --radius:14px;
+    --serif-display: 'Space Grotesk', sans-serif;
+    --sans: 'Inter', sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:var(--sans); color:var(--ink); background:var(--cream);
+    line-height:1.55; -webkit-font-smoothing:antialiased;
+  }
+  img,svg{max-width:100%; display:block;}
+  .wrap{max-width:1000px; margin:0 auto; padding:0 32px;}
+  a{color:inherit;}
+
+  .band{padding:76px 0; border-top:1px solid rgba(22,35,42,.08);}
+  .band.dark{background:var(--ink); color:var(--white);}
+  .band.dark .kicker{color:var(--turq-lt);}
+  .band.light{background:var(--cream);}
+  .band.creamdk{background:var(--cream-dk);}
+
+  .eyebrow-row{display:flex; align-items:center; gap:16px; margin-bottom:18px;}
+  .num-badge{
+    width:38px; height:38px; border-radius:50%; background:var(--turq); color:var(--ink);
+    display:flex; align-items:center; justify-content:center; font-family:var(--serif-display);
+    font-weight:700; font-size:16px; flex-shrink:0;
+  }
+  .dark .num-badge{background:var(--turq); color:var(--ink);}
+  .light .num-badge, .creamdk .num-badge{background:var(--ink); color:var(--white);}
+  .kicker{
+    font-family:var(--sans); font-weight:700; font-size:12.5px; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--turq-dk);
+  }
+  h2{
+    font-family:var(--serif-display); font-weight:600; font-size:clamp(26px,3.4vw,36px); text-wrap:balance; max-width:20ch;
+    margin-bottom:16px;
+  }
+  .lead{font-size:17px; max-width:64ch;}
+  .light .lead, .creamdk .lead{color:var(--ink-lt);}
+  .dark .lead{color:rgba(255,255,255,.82);}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    background:radial-gradient(ellipse 900px 600px at 18% 20%, rgba(31,182,196,.28), transparent 60%), var(--ink);
+    color:var(--white); padding:88px 0 0;
+  }
+  .logo{margin-bottom:52px;}
+  .logo img{height:34px; display:block;}
+  .lesson-pill{
+    display:inline-flex; align-items:center; gap:8px; border:1.5px solid var(--turq); color:var(--turq-lt);
+    font-family:var(--serif-display); font-weight:700; font-size:14px; letter-spacing:.04em;
+    padding:7px 18px 6px; border-radius:999px; margin-bottom:20px;
+  }
+  .hero h1{
+    font-family:var(--serif-display); font-weight:700; font-size:clamp(34px,5vw,54px); line-height:1.08;
+    max-width:15ch; text-wrap:balance;
+  }
+  .hero p.sublede{margin-top:22px; max-width:56ch; font-size:18px; color:#C9D3D6;}
+  .hero-meta{display:flex; gap:28px; margin-top:36px; flex-wrap:wrap; font-size:14px; color:#9FB0B5; padding-bottom:56px;}
+  .hero-meta strong{color:var(--white); font-weight:600;}
+
+  .video-frame{
+    background:var(--ink-dk); overflow:hidden; aspect-ratio:16/9; position:relative; max-width:1000px; margin:0 auto;
+    border-radius:var(--radius); box-shadow:0 24px 60px rgba(10,18,22,.35);
+  }
+  .video-wrap-outer{background:var(--cream-dk); padding:56px 32px 60px;}
+  .video-wrap-outer .inner{max-width:1000px; margin:0 auto;}
+  .video-caption{display:flex; justify-content:space-between; align-items:baseline; margin-top:14px; font-size:14px; color:var(--gray);}
+
+  /* ---------- CARDS ---------- */
+  .card-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:32px;}
+  @media(max-width:760px){.card-grid{grid-template-columns:1fr;}}
+  .card{background:var(--white); border-radius:var(--radius); padding:26px 24px;}
+  .card .n{
+    display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:50%;
+    background:var(--turq); color:var(--ink); font-family:var(--serif-display); font-weight:700; font-size:15px; margin-bottom:14px;
+  }
+  .card h3{font-family:var(--serif-display); font-weight:600; font-size:19px; margin-bottom:8px;}
+  .card p{font-size:14.5px; color:var(--ink-lt);}
+
+  /* ---------- ACTIVITY: Detector de sesgos ---------- */
+  .activity-shell{
+    margin-top:32px; background:var(--white); border:2px solid var(--ink); border-radius:18px; padding:38px 36px;
+  }
+  .activity-shell .instructions{font-size:15px; color:var(--ink-lt); margin-bottom:28px; max-width:70ch;}
+  .det-item{border:1px solid var(--cream-dk); border-radius:12px; padding:20px 22px; margin-bottom:14px;}
+  .det-phrase{font-size:16px; font-style:italic; margin-bottom:14px;}
+  .det-btns{display:flex; gap:10px; flex-wrap:wrap;}
+  .det-btn{
+    font-family:var(--sans); font-size:13.5px; font-weight:600; padding:9px 18px; border-radius:999px;
+    border:1.5px solid var(--ink); background:var(--white); color:var(--ink); cursor:pointer; transition:.15s;
+  }
+  .det-btn:hover{background:var(--cream-dk);}
+  .det-btn[disabled]{cursor:default; opacity:.5;}
+  .det-item.correct{border-color:var(--green); background:#F1FAF6;}
+  .det-item.wrong{border-color:var(--red); background:#FDF2F1;}
+  .det-fb{margin-top:12px; font-size:14px; color:var(--ink-lt); display:none; padding-top:12px; border-top:1px solid var(--cream-dk);}
+  .det-fb.show{display:block;}
+  .det-fb b{display:inline-block; margin-right:6px;}
+  .det-score{
+    margin-top:20px; display:flex; justify-content:space-between; align-items:center; font-size:14px; color:var(--gray);
+    padding-top:16px; border-top:1px dashed var(--cream-dk);
+  }
+  .det-reset{
+    font-family:var(--sans); font-size:13px; font-weight:600; color:var(--turq-dk); background:none; border:none;
+    cursor:pointer; text-decoration:underline;
+  }
+
+  /* ---------- compare toggle ---------- */
+  .compare-toggle{margin-top:30px;}
+  .toggle-btns{display:flex; gap:8px; margin-bottom:18px;}
+  .toggle-btn{
+    font-family:var(--sans); font-weight:600; font-size:13.5px; padding:9px 20px; border-radius:999px; border:1.5px solid var(--ink);
+    background:var(--white); color:var(--ink); cursor:pointer;
+  }
+  .toggle-btn.active{background:var(--ink); color:var(--white);}
+  .compare-display{border-radius:var(--radius); padding:32px 30px; min-height:120px; display:flex; align-items:center;}
+  .compare-display.before{background:#FBEDEB;}
+  .compare-display.after{background:#E9F6F1;}
+  .compare-display blockquote{font-size:19px; font-style:italic; color:var(--ink); line-height:1.5;}
+
+  /* ---------- QUIZ ---------- */
+  .quiz{margin-top:30px; display:flex; flex-direction:column; gap:14px;}
+  .q{background:var(--white); border:1px solid var(--cream-dk); border-radius:var(--radius); overflow:hidden;}
+  .q-head{
+    display:flex; justify-content:space-between; align-items:center; gap:16px; padding:20px 24px; cursor:pointer;
+    font-weight:600; font-size:15.5px; user-select:none;
+  }
+  .q-head .arrow{transition:transform .2s ease; color:var(--turq-dk); flex-shrink:0;}
+  .q.open .q-head .arrow{transform:rotate(180deg);}
+  .q-body{max-height:0; overflow:hidden; transition:max-height .28s ease;}
+  .q.open .q-body{max-height:400px;}
+  .q-body-in{padding:0 24px 22px;}
+  .opts{display:flex; flex-direction:column; gap:8px; margin-top:4px;}
+  .opt{
+    text-align:left; padding:12px 16px; border-radius:9px; border:1px solid var(--cream-dk); background:var(--cream);
+    font-size:14.5px; cursor:pointer; font-family:var(--sans); color:var(--ink); transition:.15s;
+  }
+  .opt:hover{border-color:var(--turq);}
+  .opt.correct{background:#E9F6F1; border-color:var(--green); color:var(--green); font-weight:600;}
+  .opt.wrong{background:#FBEDEB; border-color:var(--red); color:var(--red);}
+  .opt[disabled]{cursor:default;}
+  .fb{margin-top:12px; font-size:14px; color:var(--ink-lt); display:none;}
+  .fb.show{display:block;}
+
+  /* ---------- biblio / downloads ---------- */
+  .biblio{margin-top:28px; display:flex; flex-direction:column; gap:22px;}
+  .ref{padding-left:20px; border-left:2px solid var(--turq);}
+  .ref p.cite{font-size:14.5px; line-height:1.6;}
+  .ref p.note{font-size:13px; color:var(--gray); margin-top:6px;}
+  .dl-block{margin-top:28px; display:flex; gap:16px; flex-wrap:wrap;}
+  .dl-btn{
+    display:flex; align-items:center; gap:12px; background:var(--white); border:1px solid var(--cream-dk);
+    border-radius:10px; padding:16px 22px; font-size:14px; font-weight:600; color:var(--ink); text-decoration:none;
+  }
+  .dl-btn:hover{border-color:var(--turq);}
+  .dl-btn .ico{width:20px; height:20px; border-radius:5px; background:var(--turq); flex-shrink:0;}
+
+  .next-cta{
+    background:var(--turq); color:var(--ink); border-radius:var(--radius); padding:44px 40px; margin-top:44px;
+    display:flex; justify-content:space-between; align-items:center; gap:24px; flex-wrap:wrap;
+  }
+  .next-cta h3{font-family:var(--serif-display); font-weight:600; font-size:20px; margin-bottom:6px;}
+  .next-cta p{font-size:14.5px; color:rgba(22,35,42,.75);}
+  .btn{
+    background:var(--ink); color:var(--white); font-weight:700; font-size:14.5px; padding:14px 26px; border-radius:9px;
+    border:none; cursor:pointer; white-space:nowrap; font-family:var(--sans);
+  }
+  footer{padding:36px 0; text-align:center; font-size:13px; color:var(--gray); background:var(--ink-dk); color:#7C8B90;}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="logo"><img src="logo_equalia_blanco.png" alt="Equalia"></div>
+    <div class="lesson-pill">LECCIÓN 1 DE 3</div>
+    <div class="kicker" style="color:var(--turq-lt); margin-bottom:16px;">Microcurso · Contratación con perspectiva de género</div>
+    <h1>Sesgos inconscientes en la contratación</h1>
+    <p class="sublede">Lección 1: qué son los sesgos que se cuelan en un proceso de selección, por qué importan al negocio, y qué exige la normativa mexicana vigente.</p>
+    <div class="hero-meta">
+      <span><strong>Vídeo</strong> · 3:41 min</span>
+      <span><strong>Norma de referencia</strong> · NMX-R-025-SCFI-2015</span>
+      <span><strong>Lección</strong> · 1 de 3</span>
+    </div>
+  </div>
+</header>
+
+<div class="video-wrap-outer">
+  <div class="inner">
+    <div class="video-frame">
+      <iframe src="https://www.youtube-nocookie.com/embed/9MVpH8z3kAY" title="Sesgos inconscientes en la contratación — Lección 1"
+        style="width:100%; height:100%; border:0; display:block;"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    <div class="video-caption">
+      <span>Sesgos inconscientes en la contratación — Lección 1</span>
+      <span>3:41 min</span>
+    </div>
+  </div>
+</div>
+
+<section class="band light">
+  <div class="wrap">
+    <div class="eyebrow-row"><div class="num-badge">1</div><div class="kicker">En resumen</div></div>
+    <h2>Lo esencial del vídeo, de un vistazo</h2>
+    <p class="lead">Referencia rápida para releer sin tener que volver a ver el vídeo entero. El desarrollo completo, con ejemplos, está en los 3:41 minutos de arriba.</p>
+    <div class="card-grid" style="grid-template-columns:repeat(3,1fr); margin-top:32px;">
+      <div class="card"><div class="n">%</div><h3>60% de la decisión</h3><p>Puede estar influida por sesgos en procesos de selección sin estructura.</p></div>
+      <div class="card"><div class="n">3</div><h3>Afinidad · halo · confirmación</h3><p>Los tres patrones que más se repiten al entrevistar o revisar currículums.</p></div>
+      <div class="card"><div class="n">4</div><h3>Convocatoria · CV · entrevista · decisión</h3><p>Las cuatro etapas donde el sesgo puede colarse.</p></div>
+      <div class="card"><div class="n">25%</div><h3>Más rentabilidad</h3><p>Con mayor diversidad de género directiva (McKinsey, 2020).</p></div>
+      <div class="card"><div class="n">👁</div><h3>Currículum ciego</h3><p>Valorar experiencia antes de ver nombre o foto — no sustituye la entrevista.</p></div>
+      <div class="card"><div class="n">✓</div><h3>NMX-R-025</h3><p>4 requisitos obligatorios — los ves en detalle en el checklist descargable, más abajo.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="band light">
+  <div class="wrap">
+    <div class="eyebrow-row"><div class="num-badge">2</div><div class="kicker">Caso práctico</div></div>
+    <h2>Antes y después de una convocatoria</h2>
+    <p class="lead">El puesto es el mismo. Quién se anima a postularse, cambia por completo.</p>
+    <div class="compare-toggle">
+      <div class="toggle-btns">
+        <button class="toggle-btn active" data-show="before" onclick="showCompare('before', this)">Antes</button>
+        <button class="toggle-btn" data-show="after" onclick="showCompare('after', this)">Después</button>
+      </div>
+      <div class="compare-display before" id="compareDisplay">
+        <blockquote id="compareText">"Buscamos un ingeniero con carácter fuerte para liderar el equipo."</blockquote>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band creamdk" id="actividad">
+  <div class="wrap">
+    <div class="eyebrow-row"><div class="num-badge">3</div><div class="kicker">Actividad práctica</div></div>
+    <h2>Detector de sesgos</h2>
+    <div class="activity-shell">
+      <p class="instructions">Seis frases inspiradas en convocatorias reales. Para cada una, decide si contiene un sesgo (lenguaje de género innecesario, edadismo, estereotipos) o si es una redacción neutra y aceptable — incluso si es genérica. Verás la explicación al instante.</p>
+      <div id="detectorRoot"></div>
+      <div class="det-score" id="detScore">0 de 6 respondidas</div>
+      <button class="det-reset" onclick="resetDetector()" style="margin-top:14px;">↺ Reiniciar actividad</button>
+    </div>
+  </div>
+</section>
+
+<section class="band light">
+  <div class="wrap">
+    <div class="eyebrow-row"><div class="num-badge">4</div><div class="kicker">Ponte a prueba</div></div>
+    <h2>Autoevaluación rápida</h2>
+    <p class="lead">Cuatro preguntas para repasar lo esencial de esta lección.</p>
+
+    <div class="quiz" id="quizRoot">
+      <div class="q" data-correct="1">
+        <div class="q-head"><span>1. ¿Qué es el "efecto halo"?</span><span class="arrow">▾</span></div>
+        <div class="q-body"><div class="q-body-in">
+          <div class="opts">
+            <button class="opt" data-idx="0">Preferir a quien se parece a nosotros mismos</button>
+            <button class="opt" data-idx="1">Dejar que una cualidad positiva opaque el resto de la evaluación</button>
+            <button class="opt" data-idx="2">Buscar información que confirme la primera impresión</button>
+          </div>
+          <div class="fb">El efecto halo ocurre cuando un solo rasgo domina toda la valoración de la persona candidata.</div>
+        </div></div>
+      </div>
+      <div class="q" data-correct="2">
+        <div class="q-head"><span>2. ¿Qué exige la NMX-R-025 sobre las entrevistas?</span><span class="arrow">▾</span></div>
+        <div class="q-body"><div class="q-body-in">
+          <div class="opts">
+            <button class="opt" data-idx="0">Que las realice siempre la misma persona</button>
+            <button class="opt" data-idx="1">Que se graben en vídeo</button>
+            <button class="opt" data-idx="2">Que usen formatos estructurados, libres de sesgos sexistas</button>
+          </div>
+          <div class="fb">La norma exige formatos estructurados, para que todas las candidaturas se evalúen con los mismos criterios.</div>
+        </div></div>
+      </div>
+      <div class="q" data-correct="0">
+        <div class="q-head"><span>3. El currículum ciego...</span><span class="arrow">▾</span></div>
+        <div class="q-body"><div class="q-body-in">
+          <div class="opts">
+            <button class="opt" data-idx="0">Cambia qué información pesa primero, pero no sustituye la entrevista</button>
+            <button class="opt" data-idx="1">Elimina por completo la necesidad de entrevistar</button>
+            <button class="opt" data-idx="2">Solo aplica a puestos directivos</button>
+          </div>
+          <div class="fb">El currículum ciego pospone nombre, foto y otros datos personales hasta después de valorar experiencia y competencias.</div>
+        </div></div>
+      </div>
+      <div class="q" data-correct="1">
+        <div class="q-head"><span>4. Según McKinsey (2020), ¿qué ventaja se asocia a la diversidad directiva?</span><span class="arrow">▾</span></div>
+        <div class="q-body"><div class="q-body-in">
+          <div class="opts">
+            <button class="opt" data-idx="0">Menor rotación de personal</button>
+            <button class="opt" data-idx="1">25% más probabilidad de rentabilidad superior al sector</button>
+            <button class="opt" data-idx="2">Reducción directa de costos operativos</button>
+          </div>
+          <div class="fb">"Diversity Wins: How Inclusion Matters" reporta un 25% más de probabilidad de rentabilidad superior para el cuartil más diverso.</div>
+        </div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band creamdk">
+  <div class="wrap">
+    <div class="eyebrow-row"><div class="num-badge">5</div><div class="kicker">Bibliografía y materiales</div></div>
+    <h2>Fuentes de esta lección</h2>
+    <div class="biblio">
+      <div class="ref">
+        <p class="cite">Secretaría de Economía, Secretaría del Trabajo y Previsión Social, Instituto Nacional de las Mujeres, &amp; Consejo Nacional para Prevenir la Discriminación. (2015). <em>NMX-R-025-SCFI-2015 en Igualdad Laboral y No Discriminación</em>.</p>
+        <p class="note">Norma Mexicana de certificación voluntaria, vigencia nacional.</p>
+      </div>
+      <div class="ref">
+        <p class="cite">Dixon-Fyle, S., Dolan, K., Hunt, V., &amp; Prince, S. (2020). <em>Diversity Wins: How Inclusion Matters</em>. McKinsey &amp; Company.</p>
+        <p class="note">Cifra citada: cuartil superior de diversidad, 25% más de probabilidad de rentabilidad superior al promedio del sector.</p>
+      </div>
+    </div>
+    <div class="dl-block">
+      <a class="dl-btn" href="checklist_nmx_r025.pdf" download><span class="ico"></span>Checklist NMX-R-025 — 4 requisitos (PDF)</a>
+    </div>
+  </div>
+</section>
+
+<div class="wrap" style="padding:56px 32px;">
+  <div class="next-cta">
+    <div>
+      <h3>Lección 2</h3>
+      <p>Cómo rediseñar tu propio proceso de selección, paso a paso, aplicando los cuatro requisitos de la norma.</p>
+    </div>
+    <button class="btn">Continuar →</button>
+  </div>
+</div>
+
+<footer>Equalia · Microcurso de contratación con perspectiva de género · Lección 1 de 3</footer>
+
+<script>
+  // accordion quiz
+  document.querySelectorAll('.q-head').forEach(head=>{
+    head.addEventListener('click', ()=> head.parentElement.classList.toggle('open'));
+  });
+  document.querySelectorAll('.q').forEach(q=>{
+    const correctIdx = parseInt(q.dataset.correct,10);
+    const opts = q.querySelectorAll('.opt');
+    let done = false;
+    opts.forEach(opt=>{
+      opt.addEventListener('click', ()=>{
+        if(done) return; done = true;
+        const idx = parseInt(opt.dataset.idx,10);
+        opts.forEach(o=>o.setAttribute('disabled','true'));
+        if(idx===correctIdx){ opt.classList.add('correct'); }
+        else { opt.classList.add('wrong'); opts[correctIdx].classList.add('correct'); }
+        q.querySelector('.fb').classList.add('show');
+      });
+    });
+  });
+
+  // antes/despues toggle
+  const compareTexts = {
+    before: '"Buscamos un ingeniero con carácter fuerte para liderar el equipo."',
+    after: '"Buscamos a la persona ingeniera que liderará el equipo, con capacidad de gestión y comunicación."'
+  };
+  function showCompare(which, btn){
+    document.querySelectorAll('.toggle-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const disp = document.getElementById('compareDisplay');
+    disp.className = 'compare-display ' + which;
+    document.getElementById('compareText').textContent = compareTexts[which];
+  }
+
+  // Detector de sesgos — actividad interactiva
+  const DETECTOR_ITEMS = [
+    { txt:'"Buscamos una persona dinámica y con visión estratégica para el puesto de coordinación."', biased:false,
+      note:'Lenguaje neutro, sin marca de género ni rasgos estereotipados. Correcta.' },
+    { txt:'"Se busca ingeniero joven y enérgico para equipo de alto rendimiento."', biased:true,
+      note:'Combina género explícito ("ingeniero") con edadismo ("joven"): ambos excluyen candidaturas sin necesidad.' },
+    { txt:'"Requisito: licenciatura afín y mínimo un año de experiencia comprobable."', biased:false,
+      note:'Un perfil genérico y verificable es una práctica válida — no es un sesgo, amplía la concurrencia.' },
+    { txt:'"Ideal para mujeres con buena presencia para atención al público."', biased:true,
+      note:'Género explícito más un criterio de apariencia física: discriminatorio y ajeno a la competencia real.' },
+    { txt:'"El proceso de entrevista sigue el mismo guion de preguntas para todas las candidaturas."', biased:false,
+      note:'Es exactamente lo que exige la NMX-R-025: un formato de entrevista estructurado.' },
+    { txt:'"Preferimos candidatos con carácter fuerte y capacidad de mando."', biased:true,
+      note:'Masculino genérico más un estereotipo de liderazgo autoritario que desalienta otras formas de liderar.' },
+  ];
+  let detAnswered = 0;
+  function buildDetector(){
+    const root = document.getElementById('detectorRoot');
+    root.innerHTML = '';
+    DETECTOR_ITEMS.forEach((item, i)=>{
+      const div = document.createElement('div');
+      div.className = 'det-item';
+      div.innerHTML = `
+        <div class="det-phrase">${item.txt}</div>
+        <div class="det-btns">
+          <button class="det-btn" data-ans="true">Sí, tiene sesgo</button>
+          <button class="det-btn" data-ans="false">No, es neutra</button>
+        </div>
+        <div class="det-fb"></div>`;
+      div.querySelectorAll('.det-btn').forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+          if(div.dataset.done) return;
+          div.dataset.done = '1';
+          const ans = btn.dataset.ans === 'true';
+          const ok = ans === item.biased;
+          div.classList.add(ok ? 'correct' : 'wrong');
+          div.querySelectorAll('.det-btn').forEach(b=>b.setAttribute('disabled','true'));
+          const fb = div.querySelector('.det-fb');
+          fb.innerHTML = `<b>${ok ? '✓ Correcto.' : '✗ No exactamente.'}</b>${item.note}`;
+          fb.classList.add('show');
+          detAnswered++;
+          document.getElementById('detScore').textContent = `${detAnswered} de ${DETECTOR_ITEMS.length} respondidas`;
+        });
+      });
+      root.appendChild(div);
+    });
+  }
+  function resetDetector(){ detAnswered = 0; buildDetector(); document.getElementById('detScore').textContent = `0 de ${DETECTOR_ITEMS.length} respondidas`; }
+  buildDetector();
+</script>
+
+</body>
+</html>
