@@ -29,11 +29,15 @@ los ítems de Masteriyo apuntan a estas URL exactas.
 | 1 | `checklist_nmx_r025.pdf` | https://xgv85.github.io/microcursos-equalia/sesgos-inconscientes-contratacion/leccion-1/checklist_nmx_r025.pdf |
 | 3 | `checklist_medidas_nivelacion.pdf` | https://xgv85.github.io/microcursos-equalia/sesgos-inconscientes-contratacion/leccion-3/checklist_medidas_nivelacion.pdf |
 
-> ⚠️ **Pendiente de decisión.** Existe una versión corregida del checklist de la
-> lección 1 (`checklist_nmx_r025_corregit.pdf`, 6 de agosto) que reformula los
-> cuatro elementos del Requisito 3 de la NMX-R-025-SCFI-2015 y cita las páginas
-> del documento oficial. **No se ha subido**: la que está publicada sigue siendo
-> la del 4 de agosto. Ver la carpeta local `Leccion_1/pendent_correccio/`.
+> **Nota sobre `checklist_nmx_r025.pdf`.** El archivo publicado es la versión
+> corregida del 6 de agosto. La anterior enunciaba mal los cuatro elementos del
+> Requisito 3 de la NMX-R-025-SCFI-2015: incluía «proporcionalidad de género:
+> evaluar el mismo número de candidatas y candidatos», que no aparece en la norma,
+> y omitía la prohibición de exigir certificado de no embarazo o prueba de VIH y
+> la exigencia de catálogo de puestos y tabulador de salarios. La versión vigente
+> cita las páginas 20 y 53 del documento oficial y **coincide con los elementos
+> sobre los que está construida la lección 2**, que es lo que la hacía obligatoria:
+> el material de apoyo no puede contradecir la lección.
 
 ## Curso 2 · Prevención y atención del hostigamiento y acoso sexual y laboral
 
